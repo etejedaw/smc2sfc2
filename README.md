@@ -40,6 +40,6 @@ npm run dev
 - [x] Drag & drop file upload
 - [x] Support renaming files
 - [x] Accept ROMs inside zip archives
-- [ ] Serve back individually zipped ROMs
+- [x] Serve back individually zipped ROMs
 - [ ] Pull game info from thegamesdb.net
 - [ ] Add security headers to Nginx config (CSP, X-Frame-Options, X-Content-Type-Options)
