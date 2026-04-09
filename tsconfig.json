@@ -1,13 +1,5 @@
 {
-    "compilerOptions": {
-        "outDir": "./static/dist",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es6",
-        "jsx": "react"
-    },
-    "include": [
-        "./static/src/**/*"
-    ]
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
 }
