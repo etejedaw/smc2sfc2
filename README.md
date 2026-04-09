@@ -37,7 +37,10 @@ npm run dev
 
 - [x] Validate input files
 - [x] Migrate to Astro (remove React, Material UI, Python/Flask, Webpack)
+- [ ] Drag & drop file upload
+- [ ] Individual ROM download
 - [ ] Support renaming files
 - [ ] Accept ROMs inside zip archives
 - [ ] Serve back individually zipped ROMs
 - [ ] Pull game info from thegamesdb.net
+- [ ] Add security headers to Nginx config (CSP, X-Frame-Options, X-Content-Type-Options)
