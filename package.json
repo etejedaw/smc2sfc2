@@ -11,11 +11,14 @@
     }
   ],
   "license": "MIT",
+  "homepage": "https://github.com/etejedaw/smc2sfc2#readme",
+  "bugs": {
+    "url": "https://github.com/etejedaw/smc2sfc2/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/etejedaw/smc2sfc2"
+    "url": "git+https://github.com/etejedaw/smc2sfc2.git"
   },
-  "homepage": "https://smc2sfc2.tebita.xyz",
   "engines": {
     "node": ">=22.12.0"
   },
