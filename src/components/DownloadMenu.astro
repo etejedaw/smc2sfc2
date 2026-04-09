@@ -7,6 +7,10 @@
 	<div class="download-menu" id="download-menu">
 		<button class="download-option" data-headers="false">no headers (.sfc)</button>
 		<button class="download-option" data-headers="true">with headers (.smc)</button>
+		<label class="download-checkbox">
+			<input type="checkbox" id="zip-individually" />
+			Zip individually
+		</label>
 	</div>
 </div>
 
@@ -67,6 +71,22 @@
 	}
 
 	.download-option:hover {
+		background: rgba(0, 0, 0, 0.08);
+	}
+
+	.download-checkbox {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 16px;
+		font-size: 14px;
+		font-family: 'Roboto', sans-serif;
+		color: rgba(0, 0, 0, 0.87);
+		cursor: pointer;
+		border-top: 1px solid rgba(0, 0, 0, 0.08);
+	}
+
+	.download-checkbox:hover {
 		background: rgba(0, 0, 0, 0.08);
 	}
 </style>

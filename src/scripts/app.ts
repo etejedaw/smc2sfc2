@@ -12,6 +12,9 @@ const downloadMenu = document.getElementById("download-menu") as HTMLDivElement;
 const progressBar = document.getElementById("progress-bar") as HTMLDivElement;
 const snackbar = document.getElementById("snackbar") as HTMLDivElement;
 const dropZone = document.getElementById("drop-zone") as HTMLDivElement;
+const zipIndividually = document.getElementById(
+	"zip-individually"
+) as HTMLInputElement;
 
 function showProgress() {
 	progressBar.classList.add("active");
@@ -156,18 +159,21 @@ function concatBuffers(
 
 function handleDownload(withHeaders: boolean) {
 	showProgress();
+	const ext = withHeaders ? ".smc" : ".sfc";
+	const wrapIndividually = zipIndividually.checked;
 	const files: Record<string, Uint8Array> = {};
 
 	for (const [, rom] of roms) {
 		const name = rom.name
 			.replace(/\.[^.]+$/, "")
 			.replace(/[^a-zA-Z0-9_\-() ]/g, "_");
-		if (withHeaders) {
-			const buffer = concatBuffers(new ArrayBuffer(512), rom.buffer);
-			files[name + ".smc"] = new Uint8Array(buffer);
-		} else {
-			files[name + ".sfc"] = new Uint8Array(rom.buffer);
-		}
+		const data = withHeaders
+			? new Uint8Array(concatBuffers(new ArrayBuffer(512), rom.buffer))
+			: new Uint8Array(rom.buffer);
+
+		if (wrapIndividually)
+			files[name + ".zip"] = zipSync({ [name + ext]: data });
+		else files[name + ext] = data;
 	}
 
 	const zipped = zipSync(files);
