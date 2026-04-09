@@ -3,11 +3,11 @@ class SNESROM {
     public size: number;
     public headerSize: number;
     public buffer: ArrayBuffer;
-    public hiROM: boolean;
-    public loROM: boolean;
-    public title: string;
-    public region: string;
-    public video: string;
+    public hiROM: boolean = false;
+    public loROM: boolean = false;
+    public title: string = "";
+    public region: string = "";
+    public video: string = "";
     public hash: string;
 
     constructor(name: string, buf: ArrayBuffer) {
@@ -88,7 +88,7 @@ class SNESROM {
     private scoreHeader(address: number) {
         const view = new DataView(this.buffer, address, 0x40);
         const title = String.fromCodePoint(
-            ...Array.from({length: 21}, (v: void, k) => {
+            ...Array.from({length: 21}, (_, k) => {
                 return view.getUint8(SNESROM.HEADER_ADDRESSES.title + k);
             }),
         );
@@ -132,7 +132,7 @@ class SNESROM {
         this.region = SNESROM.REGIONS[region];
         this.video = (region > 12 || region < 2) ? "NTSC" : "PAL";
         this.title = String.fromCharCode(
-            ...Array.from({ length: 21 }, (v: void, k) => {
+            ...Array.from({ length: 21 }, (_, k) => {
                 return dv.getUint8(SNESROM.HEADER_ADDRESSES.title + k);
             }),
         ).trim();
