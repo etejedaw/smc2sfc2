@@ -1,0 +1,10 @@
+node_modules
+static/dist
+venv
+nodeenv
+*.pyc
+.env
+webpack-assets.json
+*.log
+*.swp
+.git
