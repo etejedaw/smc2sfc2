@@ -1,10 +1,8 @@
 node_modules
-static/dist
-venv
-nodeenv
-*.pyc
+dist
 .env
-webpack-assets.json
 *.log
 *.swp
 .git
+.astro
+.claude
