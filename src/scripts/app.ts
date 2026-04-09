@@ -36,7 +36,11 @@ function createRomCard(rom: SNESROM): HTMLDivElement {
 
     card.dataset.hash = rom.hash;
     card.querySelector(".rom-card-title")!.textContent = rom.title;
-    card.querySelector("[data-field='name']")!.textContent = rom.name;
+    const nameInput = card.querySelector("[data-field='name']") as HTMLInputElement;
+    nameInput.value = rom.name;
+    nameInput.addEventListener("input", () => {
+        rom.name = nameInput.value;
+    });
     card.querySelector("[data-field='size']")!.textContent = String(rom.size);
     card.querySelector("[data-field='region']")!.textContent = rom.region;
     card.querySelector("[data-field='video']")!.textContent = rom.video;

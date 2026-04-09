@@ -7,7 +7,7 @@
 			<span class="rom-card-title"></span>
 		</div>
 		<div class="rom-card-body">
-			<p>File Name: <span data-field="name"></span></p>
+			<p>File Name: <input type="text" class="rom-card-name" data-field="name" /></p>
 			<p>File Size: <span data-field="size"></span></p>
 			<p>Region: <span data-field="region"></span></p>
 			<p>Video: <span data-field="video"></span></p>
@@ -85,6 +85,21 @@
 
 	.rom-card.expanded .rom-card-actions {
 		display: block;
+	}
+
+	.rom-card-name {
+		border: none;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+		font-size: 14px;
+		font-family: 'Roboto', sans-serif;
+		color: rgba(0, 0, 0, 0.87);
+		padding: 2px 4px;
+		width: 60%;
+		outline: none;
+	}
+
+	.rom-card-name:focus {
+		border-bottom-color: #673ab7;
 	}
 
 	.btn-remove {
