@@ -1,13 +1,14 @@
-FROM node:lts-alpine AS build
-
+FROM node:krypton-alpine AS deps
 WORKDIR /app
-COPY package.json package-lock.json .
+COPY package.json package-lock.json ./
 RUN npm ci
+
+FROM node:krypton-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
-
-COPY --from=build /app/dist /usr/share/nginx/html
-
+FROM nginx:alpine AS runner
+COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
