@@ -1,0 +1,30 @@
+<label class="btn-add">
+	Add Files
+	<input type="file" accept=".smc,.sfc" multiple id="file-input" />
+</label>
+
+<style>
+	.btn-add {
+		display: inline-flex;
+		align-items: center;
+		padding: 8px 16px;
+		margin: 1rem;
+		color: #493580;
+		background: transparent;
+		border: none;
+		font-size: 14px;
+		font-weight: 500;
+		text-transform: uppercase;
+		cursor: pointer;
+		border-radius: 2px;
+		letter-spacing: 0.5px;
+	}
+
+	.btn-add:hover {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	.btn-add input[type="file"] {
+		display: none;
+	}
+</style>

@@ -1,0 +1,27 @@
+<div class="progress-bar" id="progress-bar"></div>
+
+<style>
+	.progress-bar {
+		height: 4px;
+		background: transparent;
+		overflow: hidden;
+	}
+
+	.progress-bar.active {
+		background: #bdbcc0;
+	}
+
+	.progress-bar.active::after {
+		content: '';
+		display: block;
+		height: 100%;
+		width: 40%;
+		background: #493580;
+		animation: indeterminate 1.5s infinite ease-in-out;
+	}
+
+	@keyframes indeterminate {
+		0% { transform: translateX(-100%); }
+		100% { transform: translateX(350%); }
+	}
+</style>
