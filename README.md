@@ -1,34 +1,24 @@
 # smc2sfc2
-SNES ROM converter
 
-Runs on Python 2.7 and Node 7.3.0
+SNES ROM converter.
 
 A web app to batch convert SNES ROM formats from .smc to .sfc or vice versa.
 
-### On Heroku
-
-https://smc2sfc2.herokuapp.com/
-
-### Install (dev)
-
-```
-pip install virtualenv
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt
-npm install -g webpack
-npm install
-```
+Fork of [mwmccarthy/smc2sfc2](https://github.com/mwmccarthy/smc2sfc2), revived after the original project was abandoned and its Heroku deployment taken down.
 
 ### Run
 
 ```
-gunicorn routes:app
+docker compose up --build
 ```
 
+The app will be available at http://localhost:8000.
+
 ### TODO
+
 - [x] Validate input files
+- [ ] Migrate to Astro (remove React, Material UI, Python/Flask, Webpack)
 - [ ] Support renaming files
-- [ ] pull game info from thegamesdb.net
-- [ ] accept ROMs inside zip archives
-- [ ] serve back individually zipped ROMs
+- [ ] Accept ROMs inside zip archives
+- [ ] Serve back individually zipped ROMs
+- [ ] Pull game info from thegamesdb.net
