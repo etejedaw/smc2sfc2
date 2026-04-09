@@ -11,4 +11,5 @@ typings*
 tslint.json
 *.swp
 CONTEXT.md
+TODO.md
 .claude
