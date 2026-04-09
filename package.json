@@ -1,7 +1,21 @@
 {
-  "name": "tmp-smc2sfc2-astro",
+  "name": "smc2sfc2",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "SNES ROM converter",
+  "author": "Esteban Tejeda <https://www.etejeda.dev>",
+  "contributors": [
+    {
+      "name": "Michael McCarthy",
+      "url": "https://github.com/mwmccarthy"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/etejedaw/smc2sfc2"
+  },
+  "homepage": "https://smc2sfc2.tebita.xyz",
   "engines": {
     "node": ">=22.12.0"
   },
