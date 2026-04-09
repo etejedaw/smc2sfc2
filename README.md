@@ -37,7 +37,7 @@ npm run dev
 
 - [x] Validate input files
 - [x] Migrate to Astro (remove React, Material UI, Python/Flask, Webpack)
-- [ ] Drag & drop file upload
+- [x] Drag & drop file upload
 - [ ] Individual ROM download
 - [ ] Support renaming files
 - [ ] Accept ROMs inside zip archives
