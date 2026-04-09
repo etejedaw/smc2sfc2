@@ -42,4 +42,4 @@ npm run dev
 - [x] Accept ROMs inside zip archives
 - [x] Serve back individually zipped ROMs
 - [ ] Pull game info from thegamesdb.net
-- [ ] Add security headers to Nginx config (CSP, X-Frame-Options, X-Content-Type-Options)
+- [x] Add security headers to Nginx config (CSP, X-Frame-Options, X-Content-Type-Options)
