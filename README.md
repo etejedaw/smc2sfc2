@@ -6,6 +6,10 @@ A web app to batch convert SNES ROM formats from .smc to .sfc or vice versa.
 
 Fork of [mwmccarthy/smc2sfc2](https://github.com/mwmccarthy/smc2sfc2), revived after the original project was abandoned and its Heroku deployment taken down.
 
+### Live
+
+https://smc2sfc2.tebita.xyz
+
 ### Tech stack
 
 - [Astro](https://astro.build/) (static site)
