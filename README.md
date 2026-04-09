@@ -16,7 +16,8 @@ Fork of [mwmccarthy/smc2sfc2](https://github.com/mwmccarthy/smc2sfc2), revived a
 ### Run
 
 ```
-docker compose up --build
+docker build -t smc2sfc2 .
+docker run -p 8080:80 smc2sfc2
 ```
 
 The app will be available at http://localhost:8080.
