@@ -1,15 +1,7 @@
-venv/
-nodeenv/
 node_modules/
-static/dist
 dist
-*.pyc
 .env
-webpack-assets.json
-README.html
-typings*
 *.log
-tslint.json
 *.swp
 CONTEXT.md
 TODO.md
