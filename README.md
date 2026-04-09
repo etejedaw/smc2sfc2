@@ -56,5 +56,4 @@ npm run dev
 - [x] Support renaming files
 - [x] Accept ROMs inside zip archives
 - [x] Serve back individually zipped ROMs
-- [ ] Pull game info from thegamesdb.net
 - [x] Add security headers to Nginx config (CSP, X-Frame-Options, X-Content-Type-Options)
