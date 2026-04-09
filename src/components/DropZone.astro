@@ -1,0 +1,47 @@
+<div class="drop-zone-overlay" id="drop-zone">
+	<div class="drop-zone-content">
+		<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+			<polyline points="17 8 12 3 7 8" />
+			<line x1="12" y1="3" x2="12" y2="15" />
+		</svg>
+		<p>Drop ROM files here</p>
+	</div>
+</div>
+
+<style>
+	.drop-zone-overlay {
+		position: fixed;
+		inset: 0;
+		background: rgba(103, 58, 183, 0.85);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.2s;
+	}
+
+	.drop-zone-overlay.active {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.drop-zone-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+		color: #ffffff;
+		border: 3px dashed rgba(255, 255, 255, 0.6);
+		border-radius: 16px;
+		padding: 48px 64px;
+	}
+
+	.drop-zone-content p {
+		font-size: 20px;
+		font-weight: 500;
+		letter-spacing: 0.5px;
+	}
+</style>

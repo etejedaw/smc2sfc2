@@ -9,6 +9,7 @@ const downloadBtn = document.getElementById("download-btn") as HTMLButtonElement
 const downloadMenu = document.getElementById("download-menu") as HTMLDivElement;
 const progressBar = document.getElementById("progress-bar") as HTMLDivElement;
 const snackbar = document.getElementById("snackbar") as HTMLDivElement;
+const dropZone = document.getElementById("drop-zone") as HTMLDivElement;
 
 function showProgress() {
     progressBar.classList.add("active");
@@ -121,6 +122,38 @@ function handleDownload(withHeaders: boolean) {
     URL.revokeObjectURL(url);
     hideProgress();
 }
+
+// Drag & drop
+let dragCounter = 0;
+
+document.addEventListener("dragenter", (e) => {
+    e.preventDefault();
+    dragCounter++;
+    if (dragCounter === 1) {
+        dropZone.classList.add("active");
+    }
+});
+
+document.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+
+document.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    dragCounter--;
+    if (dragCounter === 0) {
+        dropZone.classList.remove("active");
+    }
+});
+
+document.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dragCounter = 0;
+    dropZone.classList.remove("active");
+    if (e.dataTransfer?.files.length) {
+        handleFiles(e.dataTransfer.files);
+    }
+});
 
 // Event listeners
 fileInput.addEventListener("change", (e) => {
