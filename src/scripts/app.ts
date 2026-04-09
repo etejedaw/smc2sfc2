@@ -102,7 +102,7 @@ function handleDownload(withHeaders: boolean) {
     const files: Record<string, Uint8Array> = {};
 
     for (const [, rom] of roms) {
-        const name = rom.name.replace(/\.[^.]+$/, "");
+        const name = rom.name.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_\-() ]/g, "_");
         if (withHeaders) {
             const buffer = concatBuffers(new ArrayBuffer(512), rom.buffer);
             files[name + ".smc"] = new Uint8Array(buffer);
