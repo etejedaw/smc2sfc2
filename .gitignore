@@ -10,3 +10,5 @@ typings*
 *.log
 tslint.json
 *.swp
+CONTEXT.md
+.claude
