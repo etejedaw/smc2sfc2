@@ -2,6 +2,7 @@ venv/
 nodeenv/
 node_modules/
 static/dist
+dist
 *.pyc
 .env
 webpack-assets.json
