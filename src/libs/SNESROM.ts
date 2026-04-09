@@ -129,7 +129,7 @@ class SNESROM {
         );
         const region = dv.getUint8(SNESROM.HEADER_ADDRESSES.region);
 
-        this.region = SNESROM.REGIONS[region] ?? "No definido";
+        this.region = SNESROM.REGIONS[region] ?? "Unknown";
         this.video = (region > 12 || region < 2) ? "NTSC" : "PAL";
         this.title = String.fromCharCode(
             ...Array.from({ length: 21 }, (_, k) => {
