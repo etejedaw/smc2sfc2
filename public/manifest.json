@@ -1,0 +1,15 @@
+{
+	"name": "smc2sfc2 — SNES ROM Converter",
+	"short_name": "smc2sfc2",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#bdbcc0",
+	"theme_color": "#493580",
+	"icons": [
+		{
+			"src": "/favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml"
+		}
+	]
+}
