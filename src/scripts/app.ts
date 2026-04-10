@@ -12,9 +12,18 @@ const downloadMenu = document.getElementById("download-menu") as HTMLDivElement;
 const progressBar = document.getElementById("progress-bar") as HTMLDivElement;
 const snackbar = document.getElementById("snackbar") as HTMLDivElement;
 const dropZone = document.getElementById("drop-zone") as HTMLDivElement;
+const romCounter = document.getElementById("rom-counter") as HTMLDivElement;
 const zipIndividually = document.getElementById(
 	"zip-individually"
 ) as HTMLInputElement;
+
+function formatSize(bytes: number): string {
+	if (bytes < 1024) return `${bytes} B`;
+	const kb = bytes / 1024;
+	if (kb < 1024) return `${kb.toFixed(1)} KB`;
+	const mb = kb / 1024;
+	return `${mb.toFixed(1)} MB`;
+}
 
 function showProgress() {
 	progressBar.classList.add("active");
@@ -30,8 +39,12 @@ function showSnackbar(message: string) {
 	setTimeout(() => snackbar.classList.remove("visible"), 4000);
 }
 
-function updateDownloadBtn() {
-	downloadBtn.disabled = roms.size === 0;
+function updateToolbarButtons() {
+	const empty = roms.size === 0;
+	downloadBtn.disabled = empty;
+	romCounter.textContent = empty
+		? ""
+		: `${roms.size} ROM${roms.size === 1 ? "" : "s"} loaded`;
 }
 
 function createRomCard(rom: SNESROM): HTMLDivElement {
@@ -50,7 +63,7 @@ function createRomCard(rom: SNESROM): HTMLDivElement {
 	nameInput.addEventListener("input", () => {
 		rom.name = nameInput.value;
 	});
-	card.querySelector("[data-field='size']")!.textContent = String(rom.size);
+	card.querySelector("[data-field='size']")!.textContent = formatSize(rom.size);
 	card.querySelector("[data-field='region']")!.textContent = rom.region;
 	card.querySelector("[data-field='video']")!.textContent = rom.video;
 	card.querySelector("[data-field='memmap']")!.textContent = rom.hiROM
@@ -61,14 +74,23 @@ function createRomCard(rom: SNESROM): HTMLDivElement {
 		? "Yes"
 		: "No";
 
-	card.querySelector(".rom-card-header")!.addEventListener("click", () => {
-		card.classList.toggle("expanded");
+	const header = card.querySelector(".rom-card-header")!;
+	const toggleExpand = () => {
+		const expanded = card.classList.toggle("expanded");
+		header.setAttribute("aria-expanded", String(expanded));
+	};
+	header.addEventListener("click", toggleExpand);
+	header.addEventListener("keydown", (e) => {
+		if ((e as KeyboardEvent).key === "Enter" || (e as KeyboardEvent).key === " ") {
+			e.preventDefault();
+			toggleExpand();
+		}
 	});
 
 	card.querySelector(".btn-remove")!.addEventListener("click", () => {
 		roms.delete(rom.hash);
 		card.remove();
-		updateDownloadBtn();
+		updateToolbarButtons();
 	});
 
 	return card;
@@ -136,7 +158,7 @@ async function handleFiles(files: FileList) {
 	const notAddedCount = results.filter((added) => !added).length;
 
 	hideProgress();
-	updateDownloadBtn();
+	updateToolbarButtons();
 
 	if (notAddedCount > 0) {
 		const msg =
@@ -230,7 +252,8 @@ fileInput.addEventListener("change", (e) => {
 
 downloadBtn.addEventListener("click", () => {
 	if (!downloadBtn.disabled) {
-		downloadMenu.classList.toggle("open");
+		const isOpen = downloadMenu.classList.toggle("open");
+		downloadBtn.setAttribute("aria-expanded", String(isOpen));
 	}
 });
 
@@ -246,5 +269,20 @@ document.querySelectorAll(".download-option").forEach((btn) => {
 document.addEventListener("click", (e) => {
 	if (!(e.target as Element).closest(".download-wrapper")) {
 		downloadMenu.classList.remove("open");
+		downloadBtn.setAttribute("aria-expanded", "false");
 	}
+});
+
+document.addEventListener("keydown", (e) => {
+	if (e.key === "Escape" && downloadMenu.classList.contains("open")) {
+		downloadMenu.classList.remove("open");
+		downloadBtn.setAttribute("aria-expanded", "false");
+		downloadBtn.focus();
+	}
+});
+
+// Persist preferences
+zipIndividually.checked = localStorage.getItem("zipIndividually") === "true";
+zipIndividually.addEventListener("change", () => {
+	localStorage.setItem("zipIndividually", String(zipIndividually.checked));
 });
