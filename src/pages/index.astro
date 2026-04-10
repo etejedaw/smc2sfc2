@@ -12,6 +12,9 @@ import DropZone from "../components/DropZone.astro";
 	<Toolbar />
 	<ProgressBar />
 	<main>
+		<p class="format-info">
+			<strong>.sfc</strong> is the raw ROM data. <strong>.smc</strong> adds a 512-byte header from old SNES copier devices. This tool converts between both formats.
+		</p>
 		<div class="rom-counter" id="rom-counter" aria-live="polite"></div>
 		<div class="rom-list" id="rom-list" role="list" aria-label="Loaded ROMs"></div>
 	</main>
@@ -23,6 +26,15 @@ import DropZone from "../components/DropZone.astro";
 </Layout>
 
 <style>
+	.format-info {
+		text-align: center;
+		padding: 12px 16px 0;
+		font-size: 13px;
+		color: rgba(0, 0, 0, 0.45);
+		max-width: 480px;
+		margin: 0 auto;
+	}
+
 	.rom-counter {
 		text-align: center;
 		padding: 8px;
