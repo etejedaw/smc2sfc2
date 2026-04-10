@@ -57,3 +57,10 @@ npm run dev
 - [x] Accept ROMs inside zip archives
 - [x] Serve back individually zipped ROMs
 - [x] Add security headers to Nginx config (CSP, X-Frame-Options, X-Content-Type-Options)
+- [x] ROM counter
+- [x] Human-readable file sizes
+- [x] SNES favicon
+- [x] Persist preferences in localStorage
+- [x] PWA support (offline use)
+- [x] Accessibility (aria labels, keyboard navigation)
+- [x] Responsive design (mobile optimization)
