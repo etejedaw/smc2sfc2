@@ -9,6 +9,10 @@ class SNESROM {
     public region: string = "";
     public video: string = "";
     public hash: string;
+    public checksumValid: boolean | null = null;
+    public romSizeKbit: number = 0;
+    public ramSizeKbit: number = 0;
+    public romType: string = "";
 
     constructor(name: string, buf: ArrayBuffer) {
         this.name = name;
@@ -69,6 +73,33 @@ class SNESROM {
             "Indonesia",
             "South Korea",
         ];
+    }
+
+    private static decodeRomType(byte: number): string {
+        const base = byte & 0x0f;
+        const coprocessor = (byte & 0xf0) >> 4;
+        const bases: Record<number, string> = {
+            0x00: "ROM",
+            0x01: "ROM + RAM",
+            0x02: "ROM + RAM + Battery",
+            0x03: "ROM + Coprocessor",
+            0x04: "ROM + Coprocessor + RAM",
+            0x05: "ROM + Coprocessor + RAM + Battery",
+            0x06: "ROM + Coprocessor + Battery",
+        };
+        const coprocessors: Record<number, string> = {
+            0x00: "DSP",
+            0x01: "GSU (SuperFX)",
+            0x02: "OBC1",
+            0x03: "SA-1",
+            0x04: "S-DD1",
+            0x05: "S-RTC",
+        };
+        const parts = [bases[base] ?? `Unknown (0x${byte.toString(16)})`];
+        if (base >= 0x03 && coprocessors[coprocessor]) {
+            parts.push(coprocessors[coprocessor]);
+        }
+        return parts.join(" — ");
     }
 
     private detectMemMap() {
@@ -136,6 +167,18 @@ class SNESROM {
                 return dv.getUint8(SNESROM.HEADER_ADDRESSES.title + k);
             }),
         ).trim();
+
+        const romTypeByte = dv.getUint8(SNESROM.HEADER_ADDRESSES.romType);
+        this.romType = SNESROM.decodeRomType(romTypeByte);
+
+        const romSize = dv.getUint8(SNESROM.HEADER_ADDRESSES.romSize);
+        const ramSize = dv.getUint8(SNESROM.HEADER_ADDRESSES.ramSize);
+        this.romSizeKbit = romSize < 16 ? (0x400 << romSize) / 128 : 0;
+        this.ramSizeKbit = ramSize > 0 && ramSize < 16 ? (0x400 << ramSize) / 128 : 0;
+
+        const complement = dv.getUint16(SNESROM.HEADER_ADDRESSES.complement, true);
+        const checksum = dv.getUint16(SNESROM.HEADER_ADDRESSES.checksum, true);
+        this.checksumValid = checksum + complement === 0xffff && checksum !== 0xff00;
     }
 
     private allAscii(str: string): boolean {

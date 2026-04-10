@@ -64,11 +64,18 @@ function createRomCard(rom: SNESROM): HTMLDivElement {
 		rom.name = nameInput.value;
 	});
 	card.querySelector("[data-field='size']")!.textContent = formatSize(rom.size);
+	card.querySelector("[data-field='romsize']")!.textContent =
+		rom.romSizeKbit > 0 ? `${rom.romSizeKbit} Kbit` : "Unknown";
+	card.querySelector("[data-field='ramsize']")!.textContent =
+		rom.ramSizeKbit > 0 ? `${rom.ramSizeKbit} Kbit` : "None";
 	card.querySelector("[data-field='region']")!.textContent = rom.region;
 	card.querySelector("[data-field='video']")!.textContent = rom.video;
+	card.querySelector("[data-field='romtype']")!.textContent = rom.romType || "Unknown";
 	card.querySelector("[data-field='memmap']")!.textContent = rom.hiROM
 		? "HiROM"
 		: "LoROM";
+	card.querySelector("[data-field='checksum']")!.textContent =
+		rom.checksumValid === null ? "N/A" : rom.checksumValid ? "Valid" : "Invalid";
 	card.querySelector("[data-field='hash']")!.textContent = rom.hash;
 	card.querySelector("[data-field='header']")!.textContent = rom.headerSize
 		? "Yes"
@@ -129,14 +136,17 @@ function readFile(file: File): Promise<ArrayBuffer> {
 	});
 }
 
-async function addRom(name: string, buffer: ArrayBuffer): Promise<boolean> {
+type AddResult = "added" | "duplicate" | "invalid";
+
+async function addRom(name: string, buffer: ArrayBuffer): Promise<AddResult> {
 	const rom = new SNESROM(name, buffer);
 	await rom.computeHash();
-	if (roms.has(rom.hash) || !rom.valid()) return false;
+	if (roms.has(rom.hash)) return "duplicate";
+	if (!rom.valid()) return "invalid";
 
 	roms.set(rom.hash, rom);
 	romList.appendChild(createRomCard(rom));
-	return true;
+	return "added";
 }
 
 async function readRomEntries(
@@ -155,18 +165,19 @@ async function handleFiles(files: FileList) {
 	const results = await Promise.all(
 		groups.flat().map((e) => addRom(e.name, e.data))
 	);
-	const notAddedCount = results.filter((added) => !added).length;
+	const duplicates = results.filter((r) => r === "duplicate").length;
+	const invalid = results.filter((r) => r === "invalid").length;
 
 	hideProgress();
 	updateToolbarButtons();
 
-	if (notAddedCount > 0) {
-		const msg =
-			notAddedCount > 1
-				? `${notAddedCount} duplicate or invalid ROMs were not added.`
-				: "1 duplicate or invalid ROM was not added.";
-		showSnackbar(msg);
-	}
+	const parts: string[] = [];
+	if (duplicates > 0)
+		parts.push(`${duplicates} duplicate${duplicates > 1 ? "s" : ""}`);
+	if (invalid > 0)
+		parts.push(`${invalid} invalid`);
+	if (parts.length > 0)
+		showSnackbar(`${parts.join(", ")} not added.`);
 }
 
 function concatBuffers(
@@ -185,10 +196,18 @@ function handleDownload(withHeaders: boolean) {
 	const wrapIndividually = zipIndividually.checked;
 	const files: Record<string, Uint8Array> = {};
 
+	const usedNames = new Set<string>();
 	for (const [, rom] of roms) {
-		const name = rom.name
+		let name = rom.name
 			.replace(/\.[^.]+$/, "")
 			.replace(/[^a-zA-Z0-9_\-() ]/g, "_");
+		const baseName = name;
+		let counter = 1;
+		while (usedNames.has(name)) {
+			name = `${baseName} (${counter++})`;
+		}
+		usedNames.add(name);
+
 		const data = withHeaders
 			? new Uint8Array(concatBuffers(new ArrayBuffer(512), rom.buffer))
 			: new Uint8Array(rom.buffer);
