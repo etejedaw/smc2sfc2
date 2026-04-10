@@ -64,3 +64,7 @@ npm run dev
 - [x] PWA support (offline use)
 - [x] Accessibility (aria labels, keyboard navigation)
 - [x] Responsive design (mobile optimization)
+- [x] ROM metadata: checksum validation, ROM/RAM size, ROM type and coprocessor
+- [x] Better error feedback (distinguish duplicates from invalid ROMs)
+- [x] Filename collision handling in ZIP output
+- [x] SMC vs SFC format explanation
