@@ -8,18 +8,19 @@ Fork of [mwmccarthy/smc2sfc2](https://github.com/mwmccarthy/smc2sfc2), revived a
 
 ### What's new in this fork
 
-The original project included a TODO with features that were never implemented. This fork picks up where it left off and completes them:
+Full rewrite of the original project. React + Python/Flask + Webpack replaced with Astro + vanilla TypeScript. Everything runs client-side, no backend needed.
 
-- Support renaming files before download
-- Accept ROMs inside zip archives
-- Serve back individually zipped ROMs
-
-On top of that, this fork introduces:
-
-- Full rewrite: React + Python/Flask + Webpack replaced with Astro + vanilla TypeScript
 - Drag & drop file upload
-- SHA-256 deduplication via Web Crypto API (replaced md5 dependency)
-- Modern Docker setup with Nginx + security headers
+- Rename files before download
+- Accept and serve ROMs inside zip archives (with collision-safe naming)
+- ROM metadata display: title, region, video standard, memory map, ROM/RAM size, ROM type, coprocessor, and checksum validation
+- SHA-256 deduplication (Web Crypto API)
+- Human-readable file sizes and ROM counter
+- Distinct error feedback for duplicates vs invalid ROMs
+- PWA support (installable, works offline)
+- Accessibility (ARIA labels, keyboard navigation)
+- Responsive design (mobile optimized)
+- Modern Docker setup with Nginx + security headers (CSP, HSTS, etc.)
 
 ### Live
 
@@ -47,24 +48,3 @@ The app will be available at http://localhost:8080.
 npm install
 npm run dev
 ```
-
-### TODO
-
-- [x] Validate input files
-- [x] Migrate to Astro (remove React, Material UI, Python/Flask, Webpack)
-- [x] Drag & drop file upload
-- [x] Support renaming files
-- [x] Accept ROMs inside zip archives
-- [x] Serve back individually zipped ROMs
-- [x] Add security headers to Nginx config (CSP, X-Frame-Options, X-Content-Type-Options)
-- [x] ROM counter
-- [x] Human-readable file sizes
-- [x] SNES favicon
-- [x] Persist preferences in localStorage
-- [x] PWA support (offline use)
-- [x] Accessibility (aria labels, keyboard navigation)
-- [x] Responsive design (mobile optimization)
-- [x] ROM metadata: checksum validation, ROM/RAM size, ROM type and coprocessor
-- [x] Better error feedback (distinguish duplicates from invalid ROMs)
-- [x] Filename collision handling in ZIP output
-- [x] SMC vs SFC format explanation
