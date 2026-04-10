@@ -1,4 +1,4 @@
-<div class="drop-zone-overlay" id="drop-zone">
+<div class="drop-zone-overlay" id="drop-zone" role="region" aria-label="Drop zone for ROM files">
 	<div class="drop-zone-content">
 		<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 			<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -43,5 +43,15 @@
 		font-size: 20px;
 		font-weight: 500;
 		letter-spacing: 0.5px;
+	}
+
+	@media (max-width: 480px) {
+		.drop-zone-content {
+			padding: 32px;
+		}
+
+		.drop-zone-content p {
+			font-size: 16px;
+		}
 	}
 </style>

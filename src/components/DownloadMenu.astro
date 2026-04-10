@@ -1,12 +1,12 @@
 <div class="download-wrapper">
-	<button class="btn-icon" id="download-btn" disabled title="Download ROMs">
+	<button class="btn-icon" id="download-btn" disabled title="Download ROMs" aria-label="Download ROMs" aria-haspopup="true" aria-expanded="false">
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffffff" width="24" height="24">
 			<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
 		</svg>
 	</button>
-	<div class="download-menu" id="download-menu">
-		<button class="download-option" data-headers="false">no headers (.sfc)</button>
-		<button class="download-option" data-headers="true">with headers (.smc)</button>
+	<div class="download-menu" id="download-menu" role="menu">
+		<button class="download-option" data-headers="false" role="menuitem">no headers (.sfc)</button>
+		<button class="download-option" data-headers="true" role="menuitem">with headers (.smc)</button>
 		<label class="download-checkbox">
 			<input type="checkbox" id="zip-individually" />
 			Zip individually

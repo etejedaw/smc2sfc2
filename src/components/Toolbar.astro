@@ -49,4 +49,22 @@ import DownloadMenu from "./DownloadMenu.astro";
 		align-items: center;
 		gap: 8px;
 	}
+
+	@media (max-width: 480px) {
+		.toolbar {
+			padding: 0 4px;
+		}
+
+		.toolbar-icon {
+			margin: 0.5em;
+		}
+
+		.toolbar-title {
+			font-size: 16px;
+		}
+
+		.toolbar-right {
+			gap: 0;
+		}
+	}
 </style>

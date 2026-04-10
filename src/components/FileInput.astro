@@ -1,6 +1,6 @@
-<label class="btn-add">
+<label class="btn-add" role="button" tabindex="0">
 	Add Files
-	<input type="file" accept=".smc,.sfc,.zip" multiple id="file-input" />
+	<input type="file" accept=".smc,.sfc,.zip" multiple id="file-input" aria-label="Add ROM files" />
 </label>
 
 <style>
@@ -26,5 +26,13 @@
 
 	.btn-add input[type="file"] {
 		display: none;
+	}
+
+	@media (max-width: 480px) {
+		.btn-add {
+			padding: 8px 10px;
+			margin: 0.5rem;
+			font-size: 12px;
+		}
 	}
 </style>

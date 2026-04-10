@@ -1,6 +1,6 @@
 <template id="rom-card-template">
-	<div class="rom-card">
-		<div class="rom-card-header">
+	<div class="rom-card" role="listitem">
+		<div class="rom-card-header" role="button" tabindex="0" aria-expanded="false" aria-label="Toggle ROM details">
 			<svg class="rom-card-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
 			</svg>
@@ -118,5 +118,24 @@
 
 	.btn-remove:hover {
 		background: rgba(244, 67, 54, 0.08);
+	}
+
+	@media (max-width: 480px) {
+		.rom-card {
+			margin: 0.5rem;
+		}
+
+		.rom-card-header {
+			padding: 12px;
+		}
+
+		.rom-card-body {
+			padding: 12px;
+			word-break: break-all;
+		}
+
+		.rom-card-name {
+			width: 100%;
+		}
 	}
 </style>
