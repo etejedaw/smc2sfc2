@@ -24,8 +24,7 @@ Full rewrite of the original project. React + Python/Flask + Webpack replaced wi
 
 ### Live
 
-- https://smc2sfc2.etejeda.dev
-- https://smc2sfc2.tebita.xyz
+- https://smc2sfc2.app.etejeda.dev
 
 ### Tech stack
 
