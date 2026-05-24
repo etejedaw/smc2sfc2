@@ -1,39 +1,55 @@
 {
-  "name": "smc2sfc2",
-  "type": "module",
-  "version": "1.0.0",
-  "description": "SNES ROM converter",
-  "author": "Esteban Tejeda <https://www.etejeda.dev>",
-  "contributors": [
-    {
-      "name": "Michael McCarthy",
-      "url": "https://github.com/mwmccarthy"
-    }
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/etejedaw/smc2sfc2#readme",
-  "bugs": {
-    "url": "https://github.com/etejedaw/smc2sfc2/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/etejedaw/smc2sfc2.git"
-  },
-  "engines": {
-    "node": ">=22.12.0"
-  },
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "fflate": "^0.8.2"
-  },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.8",
-    "astro": "^6.1.5",
-    "typescript": "^5.9.3"
-  }
+	"name": "smc2sfc2",
+	"type": "module",
+	"version": "1.0.0",
+	"description": "SNES ROM converter",
+	"author": "Esteban Tejeda <https://www.etejeda.dev>",
+	"contributors": [
+		{
+			"name": "Michael McCarthy",
+			"url": "https://github.com/mwmccarthy"
+		}
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/etejedaw/smc2sfc2#readme",
+	"bugs": {
+		"url": "https://github.com/etejedaw/smc2sfc2/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/etejedaw/smc2sfc2.git"
+	},
+	"engines": {
+		"node": ">=22.12.0"
+	},
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.{js,mjs,cjs,ts,astro}": "eslint --fix",
+		"*.{js,mjs,cjs,ts,astro,css,json,md}": "prettier --write"
+	},
+	"dependencies": {
+		"fflate": "^0.8.2"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.8",
+		"@astrojs/sitemap": "^3.7.2",
+		"@typescript-eslint/parser": "^8.59.4",
+		"astro": "^6.1.5",
+		"eslint-plugin-astro": "^1.7.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.4.0",
+		"prettier": "^3.8.3",
+		"prettier-plugin-astro": "^0.14.1",
+		"typescript": "^5.9.3"
+	}
 }
