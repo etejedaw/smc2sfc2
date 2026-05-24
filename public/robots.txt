@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://smc2sfc2.app.etejeda.dev/sitemap-index.xml

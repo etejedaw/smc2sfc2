@@ -1,0 +1,16 @@
+/* TEAM */
+
+Author: Michael McCarthy
+GitHub: @mwmccarthy
+
+Maintainer: Esteban Tejeda
+Site: https://www.etejeda.dev
+GitHub: @etejedaw
+
+/* SITE */
+
+Last update: 2026-05-24
+Language: English
+Standards: HTML5, CSS3
+Components: Astro, TypeScript, fflate
+Software: Visual Studio Code
