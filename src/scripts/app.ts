@@ -1,4 +1,4 @@
-import SNESROM from "../libs/SNESROM";
+import SNESROM from "../utils/SNESROM";
 import { zipSync, unzipSync } from "fflate";
 
 const roms: Map<string, SNESROM> = new Map();
@@ -63,19 +63,26 @@ function createRomCard(rom: SNESROM): HTMLDivElement {
 	nameInput.addEventListener("input", () => {
 		rom.name = nameInput.value;
 	});
-	card.querySelector("[data-field='size']")!.textContent = formatSize(rom.size);
+	card.querySelector("[data-field='size']")!.textContent = formatSize(
+		rom.size
+	);
 	card.querySelector("[data-field='romsize']")!.textContent =
 		rom.romSizeKbit > 0 ? `${rom.romSizeKbit} Kbit` : "Unknown";
 	card.querySelector("[data-field='ramsize']")!.textContent =
 		rom.ramSizeKbit > 0 ? `${rom.ramSizeKbit} Kbit` : "None";
 	card.querySelector("[data-field='region']")!.textContent = rom.region;
 	card.querySelector("[data-field='video']")!.textContent = rom.video;
-	card.querySelector("[data-field='romtype']")!.textContent = rom.romType || "Unknown";
+	card.querySelector("[data-field='romtype']")!.textContent =
+		rom.romType || "Unknown";
 	card.querySelector("[data-field='memmap']")!.textContent = rom.hiROM
 		? "HiROM"
 		: "LoROM";
 	card.querySelector("[data-field='checksum']")!.textContent =
-		rom.checksumValid === null ? "N/A" : rom.checksumValid ? "Valid" : "Invalid";
+		rom.checksumValid === null
+			? "N/A"
+			: rom.checksumValid
+				? "Valid"
+				: "Invalid";
 	card.querySelector("[data-field='hash']")!.textContent = rom.hash;
 	card.querySelector("[data-field='header']")!.textContent = rom.headerSize
 		? "Yes"
@@ -87,8 +94,11 @@ function createRomCard(rom: SNESROM): HTMLDivElement {
 		header.setAttribute("aria-expanded", String(expanded));
 	};
 	header.addEventListener("click", toggleExpand);
-	header.addEventListener("keydown", (e) => {
-		if ((e as KeyboardEvent).key === "Enter" || (e as KeyboardEvent).key === " ") {
+	header.addEventListener("keydown", e => {
+		if (
+			(e as KeyboardEvent).key === "Enter" ||
+			(e as KeyboardEvent).key === " "
+		) {
 			e.preventDefault();
 			toggleExpand();
 		}
@@ -127,7 +137,7 @@ function extractRomsFromZip(
 }
 
 function readFile(file: File): Promise<ArrayBuffer> {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const reader = new FileReader();
 		reader.addEventListener("load", () =>
 			resolve(reader.result as ArrayBuffer)
@@ -163,10 +173,10 @@ async function handleFiles(files: FileList) {
 
 	const groups = await Promise.all(Array.from(files).map(readRomEntries));
 	const results = await Promise.all(
-		groups.flat().map((e) => addRom(e.name, e.data))
+		groups.flat().map(e => addRom(e.name, e.data))
 	);
-	const duplicates = results.filter((r) => r === "duplicate").length;
-	const invalid = results.filter((r) => r === "invalid").length;
+	const duplicates = results.filter(r => r === "duplicate").length;
+	const invalid = results.filter(r => r === "invalid").length;
 
 	hideProgress();
 	updateToolbarButtons();
@@ -174,10 +184,8 @@ async function handleFiles(files: FileList) {
 	const parts: string[] = [];
 	if (duplicates > 0)
 		parts.push(`${duplicates} duplicate${duplicates > 1 ? "s" : ""}`);
-	if (invalid > 0)
-		parts.push(`${invalid} invalid`);
-	if (parts.length > 0)
-		showSnackbar(`${parts.join(", ")} not added.`);
+	if (invalid > 0) parts.push(`${invalid} invalid`);
+	if (parts.length > 0) showSnackbar(`${parts.join(", ")} not added.`);
 }
 
 function concatBuffers(
@@ -231,7 +239,7 @@ function handleDownload(withHeaders: boolean) {
 // Drag & drop
 let dragCounter = 0;
 
-document.addEventListener("dragenter", (e) => {
+document.addEventListener("dragenter", e => {
 	e.preventDefault();
 	dragCounter++;
 	if (dragCounter === 1) {
@@ -239,11 +247,11 @@ document.addEventListener("dragenter", (e) => {
 	}
 });
 
-document.addEventListener("dragover", (e) => {
+document.addEventListener("dragover", e => {
 	e.preventDefault();
 });
 
-document.addEventListener("dragleave", (e) => {
+document.addEventListener("dragleave", e => {
 	e.preventDefault();
 	dragCounter--;
 	if (dragCounter === 0) {
@@ -251,7 +259,7 @@ document.addEventListener("dragleave", (e) => {
 	}
 });
 
-document.addEventListener("drop", (e) => {
+document.addEventListener("drop", e => {
 	e.preventDefault();
 	dragCounter = 0;
 	dropZone.classList.remove("active");
@@ -261,7 +269,7 @@ document.addEventListener("drop", (e) => {
 });
 
 // Event listeners
-fileInput.addEventListener("change", (e) => {
+fileInput.addEventListener("change", e => {
 	const input = e.target as HTMLInputElement;
 	if (input.files && input.files.length > 0) {
 		handleFiles(input.files);
@@ -276,8 +284,8 @@ downloadBtn.addEventListener("click", () => {
 	}
 });
 
-document.querySelectorAll(".download-option").forEach((btn) => {
-	btn.addEventListener("click", (e) => {
+document.querySelectorAll(".download-option").forEach(btn => {
+	btn.addEventListener("click", e => {
 		const withHeaders =
 			(e.target as HTMLButtonElement).dataset.headers === "true";
 		downloadMenu.classList.remove("open");
@@ -285,14 +293,14 @@ document.querySelectorAll(".download-option").forEach((btn) => {
 	});
 });
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", e => {
 	if (!(e.target as Element).closest(".download-wrapper")) {
 		downloadMenu.classList.remove("open");
 		downloadBtn.setAttribute("aria-expanded", "false");
 	}
 });
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", e => {
 	if (e.key === "Escape" && downloadMenu.classList.contains("open")) {
 		downloadMenu.classList.remove("open");
 		downloadBtn.setAttribute("aria-expanded", "false");

@@ -1,0 +1,233 @@
+class SNESROM {
+	public name: string;
+	public size: number;
+	public headerSize: number;
+	public buffer: ArrayBuffer;
+	public hiROM: boolean = false;
+	public loROM: boolean = false;
+	public title: string = "";
+	public region: string = "";
+	public video: string = "";
+	public hash: string;
+	public checksumValid: boolean | null = null;
+	public romSizeKbit: number = 0;
+	public ramSizeKbit: number = 0;
+	public romType: string = "";
+
+	constructor(name: string, buf: ArrayBuffer) {
+		this.name = name;
+		this.headerSize = buf.byteLength % 0x400;
+		this.buffer = buf.slice(this.headerSize);
+		this.size = this.buffer.byteLength;
+		this.hash = "";
+		const tooSmall: boolean = this.size < SNESROM.MIN_ROM_SIZE;
+		const tooBig: boolean = this.size > SNESROM.MAX_ROM_SIZE;
+		if (!tooBig && !tooSmall) {
+			this.detectMemMap();
+			this.parseHeader();
+		}
+	}
+
+	public async computeHash(): Promise<void> {
+		const hashBuffer = await crypto.subtle.digest("SHA-256", this.buffer);
+		const hashArray = Array.from(new Uint8Array(hashBuffer));
+		this.hash = hashArray
+			.map(b => b.toString(16).padStart(2, "0"))
+			.join("");
+	}
+
+	public valid(): boolean {
+		return this.hiROM || this.loROM;
+	}
+
+	static get MAX_ROM_SIZE(): number {
+		return 0x600000;
+	}
+	static get MIN_ROM_SIZE(): number {
+		return 0x40000;
+	}
+	static get SMC_HEADER_SIZE(): number {
+		return 0x200;
+	}
+	static get HEADER_ADDRESSES() {
+		return {
+			title: 0x00,
+			makeup: 0x15,
+			romType: 0x16,
+			romSize: 0x17,
+			ramSize: 0x18,
+			region: 0x19,
+			company: 0x1a,
+			version: 0x1b,
+			complement: 0x1c,
+			checksum: 0x1e,
+			resetVector: 0x3c
+		};
+	}
+	static get REGIONS(): string[] {
+		return [
+			"Japan",
+			"USA and Canada",
+			"Oceania, Europe and Asia",
+			"Sweden",
+			"Finland",
+			"Denmark",
+			"France",
+			"Holland",
+			"Spain",
+			"Germany, Austria, and Switzerland",
+			"Italy",
+			"Hong Kong and China",
+			"Indonesia",
+			"South Korea"
+		];
+	}
+
+	private static decodeRomType(byte: number): string {
+		const base = byte & 0x0f;
+		const coprocessor = (byte & 0xf0) >> 4;
+		const bases: Record<number, string> = {
+			0x00: "ROM",
+			0x01: "ROM + RAM",
+			0x02: "ROM + RAM + Battery",
+			0x03: "ROM + Coprocessor",
+			0x04: "ROM + Coprocessor + RAM",
+			0x05: "ROM + Coprocessor + RAM + Battery",
+			0x06: "ROM + Coprocessor + Battery"
+		};
+		const coprocessors: Record<number, string> = {
+			0x00: "DSP",
+			0x01: "GSU (SuperFX)",
+			0x02: "OBC1",
+			0x03: "SA-1",
+			0x04: "S-DD1",
+			0x05: "S-RTC"
+		};
+		const parts = [bases[base] ?? `Unknown (0x${byte.toString(16)})`];
+		if (base >= 0x03 && coprocessors[coprocessor]) {
+			parts.push(coprocessors[coprocessor]);
+		}
+		return parts.join(" — ");
+	}
+
+	private detectMemMap() {
+		const loScore = this.scoreHeader(0x7fc0);
+		const hiScore = this.scoreHeader(0xffc0);
+		if (hiScore > loScore) {
+			this.hiROM = true;
+			this.loROM = false;
+		} else if (loScore > 0) {
+			this.loROM = true;
+			this.hiROM = false;
+		} else {
+			this.loROM = this.hiROM = false;
+		}
+	}
+
+	private scoreHeader(address: number) {
+		const view = new DataView(this.buffer, address, 0x40);
+		const title = String.fromCodePoint(
+			...Array.from({ length: 21 }, (_, k) => {
+				return view.getUint8(SNESROM.HEADER_ADDRESSES.title + k);
+			})
+		);
+		const makeup = view.getUint8(SNESROM.HEADER_ADDRESSES.makeup);
+		const romType = view.getUint8(SNESROM.HEADER_ADDRESSES.romType);
+		const romSize = view.getUint8(SNESROM.HEADER_ADDRESSES.romSize);
+		const ramSize = view.getUint8(SNESROM.HEADER_ADDRESSES.ramSize);
+		const region = view.getUint8(SNESROM.HEADER_ADDRESSES.region);
+		const company = view.getUint8(SNESROM.HEADER_ADDRESSES.company);
+		const version = view.getUint8(SNESROM.HEADER_ADDRESSES.version);
+		const complement = view.getUint16(
+			SNESROM.HEADER_ADDRESSES.complement,
+			true
+		);
+		const checksum = view.getUint16(
+			SNESROM.HEADER_ADDRESSES.checksum,
+			true
+		);
+		const resetVector = view.getUint16(
+			SNESROM.HEADER_ADDRESSES.resetVector,
+			true
+		);
+
+		if (resetVector < 0x8000) {
+			return 0;
+		}
+
+		let score = 1;
+
+		if (this.allAscii(title)) {
+			score += 4;
+		}
+		if (address === 0x7fc0 && makeup % 2 === 0) {
+			score++;
+		}
+		if (address === 0xffc0 && makeup % 2 === 1) {
+			score++;
+		}
+		if (romType < 0x08) {
+			score++;
+		}
+		if (0x400 << romSize === this.buffer.byteLength) {
+			score += 2;
+		}
+		if (ramSize < 0x08) {
+			score++;
+		}
+		if (region < 0x0e) {
+			score++;
+		}
+		if (company === 0x33) {
+			score++;
+		}
+		if (version === 0x00) {
+			score++;
+		}
+		if (checksum + complement === 0xffff && checksum !== 0xff00) {
+			score += 6;
+		}
+
+		return score;
+	}
+
+	private parseHeader() {
+		const dv = new DataView(
+			this.buffer,
+			this.hiROM ? 0xffc0 : 0x7fc0,
+			0x40
+		);
+		const region = dv.getUint8(SNESROM.HEADER_ADDRESSES.region);
+
+		this.region = SNESROM.REGIONS[region] ?? "Unknown";
+		this.video = region > 12 || region < 2 ? "NTSC" : "PAL";
+		this.title = String.fromCharCode(
+			...Array.from({ length: 21 }, (_, k) => {
+				return dv.getUint8(SNESROM.HEADER_ADDRESSES.title + k);
+			})
+		).trim();
+
+		const romTypeByte = dv.getUint8(SNESROM.HEADER_ADDRESSES.romType);
+		this.romType = SNESROM.decodeRomType(romTypeByte);
+
+		const romSize = dv.getUint8(SNESROM.HEADER_ADDRESSES.romSize);
+		const ramSize = dv.getUint8(SNESROM.HEADER_ADDRESSES.ramSize);
+		this.romSizeKbit = romSize < 16 ? (0x400 << romSize) / 128 : 0;
+		this.ramSizeKbit =
+			ramSize > 0 && ramSize < 16 ? (0x400 << ramSize) / 128 : 0;
+
+		const complement = dv.getUint16(
+			SNESROM.HEADER_ADDRESSES.complement,
+			true
+		);
+		const checksum = dv.getUint16(SNESROM.HEADER_ADDRESSES.checksum, true);
+		this.checksumValid =
+			checksum + complement === 0xffff && checksum !== 0xff00;
+	}
+
+	private allAscii(str: string): boolean {
+		return /^[\x00-\x7F]*$/.test(str);
+	}
+}
+
+export default SNESROM;
