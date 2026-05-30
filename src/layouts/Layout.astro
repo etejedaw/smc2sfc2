@@ -1,6 +1,4 @@
 ---
-import gamepadUrl from "../assets/gamepad.svg?url";
-
 interface Props {
 	title: string;
 	description?: string;
@@ -59,7 +57,7 @@ const {
 	</body>
 </html>
 
-<style is:global define:vars={{ bgUrl: `url(${gamepadUrl})` }}>
+<style is:global>
 	* {
 		margin: 0;
 		padding: 0;
@@ -73,7 +71,7 @@ const {
 	}
 
 	body {
-		background: var(--bgUrl) no-repeat center center fixed;
+		background: url("../assets/gamepad.svg") no-repeat center center fixed;
 		background-size: contain;
 		height: 100%;
 		margin: 0;
