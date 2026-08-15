@@ -3,8 +3,8 @@
 	"short_name": "smc2sfc2",
 	"start_url": "/",
 	"display": "standalone",
-	"background_color": "#bdbcc0",
-	"theme_color": "#493580",
+	"background_color": "#cfcbc2",
+	"theme_color": "#45444c",
 	"icons": [
 		{
 			"src": "/favicon.svg",
