@@ -1,4 +1,4 @@
-const CACHE_NAME = "smc2sfc2-v1";
+const CACHE_NAME = "smc2sfc2-v2";
 
 self.addEventListener("install", event => {
 	event.waitUntil(
