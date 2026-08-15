@@ -8,20 +8,24 @@
 	}
 
 	.progress-bar.active {
-		background: #bdbcc0;
+		background: rgba(38, 37, 43, 0.12);
 	}
 
 	.progress-bar.active::after {
-		content: '';
+		content: "";
 		display: block;
 		height: 100%;
 		width: 40%;
-		background: #493580;
+		background: var(--sfc-buttons);
 		animation: indeterminate 1.5s infinite ease-in-out;
 	}
 
 	@keyframes indeterminate {
-		0% { transform: translateX(-100%); }
-		100% { transform: translateX(350%); }
+		0% {
+			transform: translateX(-100%);
+		}
+		100% {
+			transform: translateX(350%);
+		}
 	}
 </style>

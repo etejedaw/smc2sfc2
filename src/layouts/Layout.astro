@@ -30,7 +30,7 @@ const {
 		<link rel="manifest" href="/manifest.json" />
 		<link rel="canonical" href={canonical} />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#493580" />
+		<meta name="theme-color" content="#45444c" />
 		<meta property="og:title" content={ogTitle} />
 		<meta property="og:description" content={ogDescription} />
 		<meta property="og:type" content="website" />
@@ -58,6 +58,40 @@ const {
 </html>
 
 <style is:global>
+	/* Super Famicom palette: light grey plastic body, dark grey slot,
+	   and the four face-button colours used as accents. */
+	:root {
+		--sfc-bg: #cfcbc2;
+		--sfc-surface: #faf9f6;
+		--sfc-charcoal: #45444c;
+		--sfc-charcoal-90: rgba(69, 68, 76, 0.9);
+		--sfc-charcoal-85: rgba(69, 68, 76, 0.85);
+
+		--sfc-red: #b8323c;
+		--sfc-yellow: #deb13a;
+		--sfc-green: #3e8e52;
+		--sfc-blue: #35599e;
+
+		--sfc-text: rgba(38, 37, 43, 0.87);
+		--sfc-text-muted: rgba(38, 37, 43, 0.54);
+		--sfc-text-faint: rgba(38, 37, 43, 0.45);
+		--sfc-on-dark: #f2f1ee;
+		--sfc-on-dark-muted: #c9c6bf;
+
+		--sfc-divider: rgba(38, 37, 43, 0.1);
+		--sfc-hover: rgba(38, 37, 43, 0.06);
+		--sfc-hover-dark: rgba(255, 255, 255, 0.12);
+		--sfc-shadow: rgba(38, 37, 43, 0.24);
+
+		--sfc-buttons: linear-gradient(
+			90deg,
+			var(--sfc-red) 0 25%,
+			var(--sfc-yellow) 25% 50%,
+			var(--sfc-green) 50% 75%,
+			var(--sfc-blue) 75% 100%
+		);
+	}
+
 	* {
 		margin: 0;
 		padding: 0;
@@ -65,7 +99,7 @@ const {
 	}
 
 	html {
-		background-color: #bdbcc0;
+		background-color: var(--sfc-bg);
 		height: 100%;
 		font-family: "Roboto", sans-serif;
 	}

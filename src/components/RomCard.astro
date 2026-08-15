@@ -1,13 +1,29 @@
 <template id="rom-card-template">
 	<div class="rom-card" role="listitem">
-		<div class="rom-card-header" role="button" tabindex="0" aria-expanded="false" aria-label="Toggle ROM details">
-			<svg class="rom-card-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-				<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+		<div
+			class="rom-card-header"
+			role="button"
+			tabindex="0"
+			aria-expanded="false"
+			aria-label="Toggle ROM details"
+		>
+			<svg
+				class="rom-card-expand-icon"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+			>
+				<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
 			</svg>
 			<span class="rom-card-title"></span>
 		</div>
 		<div class="rom-card-body">
-			<p>File Name: <input type="text" class="rom-card-name" data-field="name" /></p>
+			<p>
+				File Name: <input
+					type="text"
+					class="rom-card-name"
+					data-field="name"
+				/>
+			</p>
 			<p>File Size: <span data-field="size"></span></p>
 			<p>ROM Size: <span data-field="romsize"></span></p>
 			<p>RAM Size: <span data-field="ramsize"></span></p>
@@ -28,9 +44,11 @@
 <style>
 	.rom-card {
 		margin: 1rem;
-		background: #ffffff;
+		background: var(--sfc-surface);
 		border-radius: 2px;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+		box-shadow:
+			0 1px 3px rgba(38, 37, 43, 0.12),
+			0 1px 2px var(--sfc-shadow);
 		overflow: hidden;
 	}
 
@@ -43,7 +61,7 @@
 	}
 
 	.rom-card-header:hover {
-		background: rgba(0, 0, 0, 0.04);
+		background: var(--sfc-hover);
 	}
 
 	.rom-card-expand-icon {
@@ -51,7 +69,7 @@
 		height: 24px;
 		margin-right: 16px;
 		transition: transform 0.2s;
-		fill: rgba(0, 0, 0, 0.54);
+		fill: var(--sfc-text-muted);
 	}
 
 	.rom-card.expanded .rom-card-expand-icon {
@@ -61,13 +79,13 @@
 	.rom-card-title {
 		font-size: 16px;
 		font-weight: 400;
-		color: rgba(0, 0, 0, 0.87);
+		color: var(--sfc-text);
 	}
 
 	.rom-card-body {
 		display: none;
 		padding: 16px;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
+		border-top: 1px solid var(--sfc-divider);
 	}
 
 	.rom-card.expanded .rom-card-body {
@@ -77,14 +95,14 @@
 	.rom-card-body p {
 		margin: 4px 0;
 		font-size: 14px;
-		color: rgba(0, 0, 0, 0.87);
+		color: var(--sfc-text);
 	}
 
 	.rom-card-actions {
 		display: none;
 		padding: 8px;
 		text-align: right;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
+		border-top: 1px solid var(--sfc-divider);
 	}
 
 	.rom-card.expanded .rom-card-actions {
@@ -93,35 +111,35 @@
 
 	.rom-card-name {
 		border: none;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+		border-bottom: 1px solid rgba(38, 37, 43, 0.2);
 		font-size: 14px;
-		font-family: 'Roboto', sans-serif;
-		color: rgba(0, 0, 0, 0.87);
+		font-family: "Roboto", sans-serif;
+		color: var(--sfc-text);
 		padding: 2px 4px;
 		width: 60%;
 		outline: none;
 	}
 
 	.rom-card-name:focus {
-		border-bottom-color: #673ab7;
+		border-bottom-color: var(--sfc-blue);
 	}
 
 	.btn-remove {
 		padding: 8px 16px;
 		border: none;
 		background: transparent;
-		color: #f44336;
+		color: var(--sfc-red);
 		font-size: 14px;
 		font-weight: 500;
 		text-transform: uppercase;
 		cursor: pointer;
 		border-radius: 2px;
-		font-family: 'Roboto', sans-serif;
+		font-family: "Roboto", sans-serif;
 		letter-spacing: 0.5px;
 	}
 
 	.btn-remove:hover {
-		background: rgba(244, 67, 54, 0.08);
+		background: rgba(184, 50, 60, 0.1);
 	}
 
 	@media (max-width: 480px) {

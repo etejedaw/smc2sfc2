@@ -1,6 +1,12 @@
 <label class="btn-add" role="button" tabindex="0">
 	Add Files
-	<input type="file" accept=".smc,.sfc,.zip" multiple id="file-input" aria-label="Add ROM files" />
+	<input
+		type="file"
+		accept=".smc,.sfc,.zip"
+		multiple
+		id="file-input"
+		aria-label="Add ROM files"
+	/>
 </label>
 
 <style>
@@ -9,7 +15,7 @@
 		align-items: center;
 		padding: 8px 16px;
 		margin: 1rem;
-		color: #ffffff;
+		color: var(--sfc-on-dark);
 		background: transparent;
 		border: none;
 		font-size: 14px;
@@ -21,7 +27,7 @@
 	}
 
 	.btn-add:hover {
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--sfc-hover-dark);
 	}
 
 	.btn-add input[type="file"] {
