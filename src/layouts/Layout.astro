@@ -30,7 +30,7 @@ const {
 		<link rel="manifest" href="/manifest.json" />
 		<link rel="canonical" href={canonical} />
 		<meta name="description" content={description} />
-		<meta name="theme-color" content="#45444c" />
+		<meta name="theme-color" content="#2d4f9e" />
 		<meta property="og:title" content={ogTitle} />
 		<meta property="og:description" content={ogDescription} />
 		<meta property="og:type" content="website" />
@@ -58,37 +58,38 @@ const {
 </html>
 
 <style is:global>
-	/* Super Famicom palette: light grey plastic body, dark grey slot,
-	   and the four face-button colours used as accents. */
+	/* Super Famicom palette: warm cartridge-plastic body, the X-button blue
+	   as chrome, and the A/B/Y buttons as the accent stripe. */
 	:root {
-		--sfc-bg: #cfcbc2;
-		--sfc-surface: #faf9f6;
-		--sfc-charcoal: #45444c;
-		--sfc-charcoal-90: rgba(69, 68, 76, 0.9);
-		--sfc-charcoal-85: rgba(69, 68, 76, 0.85);
+		--sfc-bg: #d7d2c6;
+		--sfc-surface: #fffdf7;
 
-		--sfc-red: #b8323c;
-		--sfc-yellow: #deb13a;
-		--sfc-green: #3e8e52;
-		--sfc-blue: #35599e;
+		--sfc-red: #c2373f;
+		--sfc-yellow: #e8bb3a;
+		--sfc-green: #3f9556;
+		--sfc-blue: #2d4f9e;
 
-		--sfc-text: rgba(38, 37, 43, 0.87);
-		--sfc-text-muted: rgba(38, 37, 43, 0.54);
-		--sfc-text-faint: rgba(38, 37, 43, 0.45);
-		--sfc-on-dark: #f2f1ee;
-		--sfc-on-dark-muted: #c9c6bf;
+		--sfc-chrome: var(--sfc-blue);
+		--sfc-chrome-90: rgba(45, 79, 158, 0.92);
+		--sfc-overlay: rgba(63, 149, 86, 0.88);
+		--sfc-ink: #2b2822;
 
-		--sfc-divider: rgba(38, 37, 43, 0.1);
-		--sfc-hover: rgba(38, 37, 43, 0.06);
-		--sfc-hover-dark: rgba(255, 255, 255, 0.12);
-		--sfc-shadow: rgba(38, 37, 43, 0.24);
+		--sfc-text: rgba(43, 40, 34, 0.87);
+		--sfc-text-muted: rgba(43, 40, 34, 0.54);
+		--sfc-text-faint: rgba(43, 40, 34, 0.45);
+		--sfc-on-dark: #fbfaf5;
+		--sfc-on-dark-muted: #cfd9ef;
+
+		--sfc-divider: rgba(43, 40, 34, 0.1);
+		--sfc-hover: rgba(43, 40, 34, 0.06);
+		--sfc-hover-dark: rgba(255, 255, 255, 0.14);
+		--sfc-shadow: rgba(43, 40, 34, 0.24);
 
 		--sfc-buttons: linear-gradient(
 			90deg,
-			var(--sfc-red) 0 25%,
-			var(--sfc-yellow) 25% 50%,
-			var(--sfc-green) 50% 75%,
-			var(--sfc-blue) 75% 100%
+			var(--sfc-red) 0 33.33%,
+			var(--sfc-yellow) 33.33% 66.66%,
+			var(--sfc-green) 66.66% 100%
 		);
 	}
 
